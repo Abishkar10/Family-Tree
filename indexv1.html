@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Family Tree</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="stylev1.css" />
+    <h1 class="text-2xl font-bold text-gray-800" style="justify-self: center">
+      SHAH FAMILY TREE
+    </h1>
+  </head>
+  <body class="bg-gray-100 min-h-screen p-4">
+    <div class="max-w-5xl mx-auto">
+      <div
+        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4"
+      >
+        <div class="space-x-2" id="exportImportControls">
+          <button id="exportJson" class="btn">Export JSON</button>
+          <label class="btn cursor-pointer">
+            Import JSON
+            <input type="file" id="importJson" class="hidden" />
+          </label>
+        </div>
+        <button id="toggleModeBtn" class="btn bg-blue-600 hover:bg-blue-700">
+          Switch to Edit Mode
+        </button>
+      </div>
+
+      <div
+        id="treeContainer"
+        class="bg-white rounded-lg shadow p-4 overflow-auto"
+      ></div>
+    </div>
+
+    <script src="appv1.js"></script>
+  </body>
+</html>

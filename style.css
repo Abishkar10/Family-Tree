@@ -1,0 +1,177 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f3f7fb;
+  margin: 0;
+  padding: 1rem;
+  color: #333;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #0f4c81;
+}
+
+.buttons {
+  text-align: center;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+button {
+  background: #0f4c81;
+  border: none;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+button:hover {
+  background: #0b3660;
+}
+
+.tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  user-select: none;
+}
+
+/* Each generation is a horizontal row of nodes */
+.generation {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: nowrap;
+  position: relative;
+}
+
+/* Node styling */
+.member {
+  position: relative;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgb(0 0 0 / 0.1);
+  padding: 1rem 0.8rem 1.2rem;
+  width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: default;
+  transition: box-shadow 0.3s ease;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.member:hover {
+  box-shadow: 0 5px 15px rgb(0 0 0 / 0.2);
+}
+
+.member img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #0f4c81;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
+  transition: transform 0.3s ease;
+}
+
+.member img.editable {
+  cursor: pointer;
+  outline-offset: 4px;
+}
+
+.member img.editable:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 12px rgb(15 76 129 / 0.8);
+}
+
+.member span {
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: text;
+  outline: none;
+  border-bottom: 1.5px dotted transparent;
+}
+
+.member span[contenteditable]:focus {
+  border-bottom-color: #0f4c81;
+  background: #f0f7ff;
+  padding: 2px 4px;
+  border-radius: 4px;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* Buttons inside nodes in edit mode */
+.member .node-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.member .node-buttons button {
+  background: #0f4c81;
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.member .node-buttons button:hover {
+  background: #0b3660;
+}
+
+/* Lines connecting generations vertically */
+.generation:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -2rem;
+  width: 2px;
+  height: 2rem;
+  background: #0f4c81;
+}
+
+/* Lines connecting siblings horizontally */
+.generation > .member:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -1rem;
+  width: 2rem;
+  height: 2px;
+  background: #0f4c81;
+  transform: translateY(-50%);
+}
+
+.generation > .member:last-child::after {
+  content: none;
+}

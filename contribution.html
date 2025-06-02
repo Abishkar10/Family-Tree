@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contribution Table</title>
+    <style>
+      /* Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        height: 100%;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        overflow-x: hidden;
+        background-color: #f0f2f5;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 250px;
+        background-color: #202020;
+        color: white;
+        padding-top: 60px;
+        transition: transform 0.3s ease;
+        overflow-y: auto;
+        z-index: 1000;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+      }
+      .sidebar.collapsed {
+        transform: translateX(-250px);
+      }
+      .sidebar ul {
+        list-style: none;
+        padding-left: 0;
+      }
+      .sidebar li {
+        border-bottom: 1px solid #333;
+      }
+      .sidebar a {
+        display: block;
+        padding: 15px 20px;
+        font-weight: 600;
+        color: white;
+        text-decoration: none;
+        user-select: none;
+        transition: background-color 0.2s ease;
+      }
+      .sidebar a:hover {
+        background-color: #383838;
+      }
+
+      /* Toggle button */
+      .toggle-btn {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1100;
+        background: #202020;
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 18px;
+        border-radius: 4px;
+        user-select: none;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+        transition: background-color 0.3s ease;
+      }
+      .toggle-btn:hover {
+        background: #383838;
+      }
+
+      /* Main content */
+      .main-content {
+        margin-left: 250px;
+        padding: 2rem;
+        transition: margin-left 0.3s ease;
+        height: 100vh;
+        overflow-y: auto;
+      }
+      .main-content.collapsed {
+        margin-left: 0;
+      }
+
+      /* Contribution Table Styles */
+      .table-container {
+        max-width: 700px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        padding-bottom: 2rem;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+        margin: 1rem 0 0.5rem;
+        color: #202020;
+      }
+
+      .edit-button {
+        display: block;
+        width: fit-content;
+        margin: 0 auto 1.5rem;
+        padding: 10px 18px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: background 0.2s;
+        user-select: none;
+      }
+
+      .edit-button:hover {
+        background-color: #0056b3;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: #4caf50;
+        color: white;
+      }
+
+      th,
+      td {
+        padding: 14px 18px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      tbody tr:hover {
+        background-color: #f9f9f9;
+      }
+
+      .total-row {
+        background-color: #e6f7ff;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="toggle-btn" aria-label="Toggle Sidebar">&#9776;</button>
+
+    <div class="sidebar" id="sidebar">
+      <ul>
+        <li><a href="/main.html">Home</a></li>
+        <li><a href="/indexv1.html">Family Tree</a></li>
+        <li><a href="/contribution.html">Contributions</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contacts.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <main class="main-content" id="mainContent">
+      <div class="table-container">
+        <h1>Contribution Summary</h1>
+        <a
+          href="https://docs.google.com/spreadsheets/d/1PkcHac91Lw3D15onLYC4Zff_o4Y09DIfbwMa2vwvvQA/edit?gid=0#gid=0"
+          target="_blank"
+          class="edit-button"
+          >Edit Table</a
+        >
+        <table id="contribution-table">
+          <!-- Table will be injected here -->
+        </table>
+      </div>
+    </main>
+
+    <script>
+      const toggleBtn = document.querySelector(".toggle-btn");
+      const sidebar = document.getElementById("sidebar");
+      const mainContent = document.getElementById("mainContent");
+
+      toggleBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("collapsed");
+        mainContent.classList.toggle("collapsed");
+      });
+
+      // Fetch and display CSV from Google Sheets
+      const csvUrl =
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQub2swBi5l6M4gWkLBBwDWJ5ZzSKvnCRVzrel_QFA8CQ_-_0CbPKUQv2xp07S7ZZCszUxzgB6vXQ4J/pub?output=csv"; // Replace with your CSV link
+
+      fetch(csvUrl)
+        .then((response) => response.text())
+        .then((data) => {
+          const rows = data
+            .trim()
+            .split("\n")
+            .map((row) => row.split(","));
+          const table = document.getElementById("contribution-table");
+
+          const thead = document.createElement("thead");
+          const tbody = document.createElement("tbody");
+
+          rows.forEach((cols, index) => {
+            const tr = document.createElement("tr");
+            const isHeader = index === 0;
+            const isTotalRow = cols[1].toLowerCase().includes("total");
+
+            if (isHeader) {
+              cols.forEach((col) => {
+                const th = document.createElement("th");
+                th.textContent = col;
+                tr.appendChild(th);
+              });
+              thead.appendChild(tr);
+            } else {
+              if (isTotalRow) tr.classList.add("total-row");
+              cols.forEach((col, colIndex) => {
+                const td = document.createElement("td");
+                if (colIndex === 2 && !isNaN(col)) {
+                  td.textContent = "$" + parseFloat(col).toFixed(2);
+                } else {
+                  td.textContent = col;
+                }
+                tr.appendChild(td);
+              });
+              tbody.appendChild(tr);
+            }
+          });
+
+          table.appendChild(thead);
+          table.appendChild(tbody);
+        });
+    </script>
+  </body>
+</html>

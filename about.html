@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About Us</title>
+    <style>
+      /* Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        height: 100%;
+        font-family: Arial, sans-serif;
+        overflow-x: hidden;
+        background: #f9f9f9;
+      }
+
+      /* Container */
+      .container {
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 250px;
+        background-color: #202020;
+        color: white;
+        padding-top: 60px;
+        transition: transform 0.3s ease;
+        overflow-y: auto;
+        z-index: 1000;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+      }
+      .sidebar.collapsed {
+        transform: translateX(-250px);
+      }
+      .sidebar ul {
+        list-style: none;
+        padding-left: 0;
+      }
+      .sidebar li {
+        border-bottom: 1px solid #333;
+      }
+      .sidebar a {
+        display: block;
+        padding: 15px 20px;
+        font-weight: 600;
+        color: white;
+        text-decoration: none;
+        user-select: none;
+        transition: background-color 0.2s ease;
+      }
+      .sidebar a:hover {
+        background-color: #383838;
+      }
+
+      /* Main content */
+      .main-content {
+        margin-left: 250px;
+        flex: 1;
+        padding: 30px;
+        overflow-y: auto;
+        transition: margin-left 0.3s ease;
+        height: 100vh;
+        color: #333;
+        background: #fff;
+      }
+      .main-content.collapsed {
+        margin-left: 0;
+      }
+
+      /* Toggle button */
+      .toggle-btn {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1100;
+        background: #202020;
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 18px;
+        border-radius: 4px;
+        user-select: none;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+        transition: background-color 0.3s ease;
+      }
+      .toggle-btn:hover {
+        background: #383838;
+      }
+
+      /* Page specific styles */
+      h1 {
+        margin-bottom: 1rem;
+        color: #2c3e50;
+      }
+      p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="toggle-btn" aria-label="Toggle Sidebar">&#9776;</button>
+
+    <div class="sidebar" id="sidebar">
+      <ul>
+        <li><a href="main.html">Home</a></li>
+        <li><a href="/indexv1.html">Family Tree</a></li>
+        <li><a href="/contribution.html">Contributions</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contacts.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <main class="main-content" id="mainContent">
+      <h1>About Us</h1>
+      <p>
+        Welcome to our website! We are dedicated to providing an easy-to-use
+        platform to visualize family trees and track contributions. Our goal is
+        to help families stay connected and organized in a simple, elegant way.
+      </p>
+      <p>
+        This site is built with modern web technologies and designed to be
+        accessible and responsive on any device. If you have questions or
+        feedback, please feel free to contact us.
+      </p>
+    </main>
+
+    <script>
+      const toggleBtn = document.querySelector(".toggle-btn");
+      const sidebar = document.getElementById("sidebar");
+      const mainContent = document.getElementById("mainContent");
+
+      toggleBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("collapsed");
+        mainContent.classList.toggle("collapsed");
+      });
+    </script>
+  </body>
+</html>
